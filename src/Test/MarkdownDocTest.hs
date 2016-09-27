@@ -41,9 +41,14 @@ mddoctest filenames = do
   forM_ files $ \file -> do
     cont <- readTextFile file
     pand <- either (fail . show) pure (readMarkdown (def { readerApplyMacros = False
-                                                         , readerExtensions = [Ext_literate_haskell] }) (unpack cont))
+                                                         , readerExtensions = [ Ext_literate_haskell
+                                                                              , Ext_backtick_code_blocks
+                                                                              , Ext_inline_code_attributes
+                                                                              ] }) (unpack cont))
     let doctested = walk doctestify pand
-    let out = pack (writeMarkdown (def { writerExtensions = [Ext_literate_haskell, Ext_backtick_code_blocks]
+    let out = pack (writeMarkdown (def { writerExtensions = [ Ext_literate_haskell
+                                                            , Ext_backtick_code_blocks
+                                                            , Ext_inline_code_attributes]
                                        , writerHTMLMathMethod = PlainMath }) doctested)
     let tmpname = (either id id . toText . filename) file
     with (mktempdir hmdir tmpname) $ \tmpDir -> do
