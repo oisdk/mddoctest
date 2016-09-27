@@ -40,7 +40,8 @@ mddoctest filenames = do
   hmdir <- home
   forM_ files $ \file -> do
     cont <- readTextFile file
-    pand <- either (fail . show) pure (readMarkdown (def {readerApplyMacros = False}) (unpack cont))
+    pand <- either (fail . show) pure (readMarkdown (def { readerApplyMacros = False
+                                                         , readerExtensions = [] }) (unpack cont))
     let doctested = walk doctestify pand
     let out = pack (writeMarkdown (def { writerExtensions = [Ext_literate_haskell, Ext_backtick_code_blocks]
                                        , writerHTMLMathMethod = PlainMath }) doctested)
