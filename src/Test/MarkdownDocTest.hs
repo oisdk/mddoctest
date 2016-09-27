@@ -43,7 +43,6 @@ mddoctest filenames = do
     pand <- either (fail . show) pure (readMarkdown def (unpack cont))
     let doctested = walk doctestify pand
     let out = pack $ writeMarkdown (def { writerExtensions = def <> [Ext_literate_haskell]}) doctested
-    echo out
     with (mktempdir hmdir "markdown") $ \tmpDir -> do
       let tmpFile = tmpDir <> "Main.lhs"
       writeTextFile tmpFile out
