@@ -19,7 +19,7 @@ library
   build-depends:       base >= 4.7 && < 5
                      , managed >= 1.0
                      , text >= 1.2
-                     , doctest >= 0.11
+                     , doctest >= 0.10
                      , pandoc
                      , turtle >= 1.2
                      , system-filepath >= 0.4
