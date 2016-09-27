@@ -36,14 +36,14 @@ comment s = unlines [ "-- " <> l | l <- lines s ]
 
 mddoctest :: [String] -> IO ()
 mddoctest filenames = do
-  let files = map decodeString filenames
+  let files = map ((,) <*> decodeString) filenames
   hmdir <- home
-  forM_ files $ \file -> do
+  forM_ files $ \(named,file) -> do
     cont <- readTextFile file
     pand <- either (fail . show) pure (readMarkdown def (unpack cont))
     let doctested = walk doctestify pand
     let out = pack $ writeMarkdown (def { writerExtensions = def <> [Ext_literate_haskell]}) doctested
-    with (mktempdir hmdir "markdown") $ \tmpDir -> do
+    with (mktempdir hmdir (pack named)) $ \tmpDir -> do
       let tmpFile = tmpDir <> "Main.lhs"
       writeTextFile tmpFile out
       doctest [encodeString tmpFile]
