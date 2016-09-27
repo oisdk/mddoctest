@@ -5,15 +5,15 @@ module Test.MarkdownDocTest (mddoctest) where
 
 import           Control.Applicative
 import           Control.Monad
-import           Control.Monad.Managed
-import           Data.List                 hiding (unlines)
+import           Control.Monad.Managed     (with)
+import           Data.List                 (intercalate)
 import           Data.Monoid
 import           Data.Text                 (pack, unpack)
 import           Filesystem.Path.CurrentOS
 import           Prelude                   hiding (unlines)
 import           Test.DocTest
 import           Text.Pandoc
-import           Text.Pandoc.Walk
+import           Text.Pandoc.Walk          (walk)
 import           Turtle.Prelude
 
 unlines :: [String] -> String
