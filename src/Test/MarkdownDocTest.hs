@@ -42,7 +42,8 @@ mddoctest filenames = do
     cont <- readTextFile file
     pand <- either (fail . show) pure (readMarkdown (def {readerApplyMacros = False}) (unpack cont))
     let doctested = walk doctestify pand
-    let out = pack (writeMarkdown (def { writerExtensions = def <> [Ext_literate_haskell]}) doctested)
+    let out = pack (writeMarkdown (def { writerExtensions = def <> [Ext_literate_haskell]
+                                       , writerHTMLMathMethod = PlainMath }) doctested)
     let tmpname = (either id id . toText . filename) file
     with (mktempdir hmdir tmpname) $ \tmpDir -> do
       let tmpFile = tmpDir <> "Main.lhs"
