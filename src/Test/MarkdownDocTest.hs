@@ -24,11 +24,11 @@ doctestify c@(CodeBlock (_,xs,_) _)
   | "haskell" `notElem` xs || "literate" `notElem` xs = c
 doctestify (CodeBlock (i,xs,ks) cb)
   | "example" `elem` xs =
-    CodeBlock (i,xs,ks) (comment ("| >>> " ++ cb))
+    CodeBlock (i,xs,ks) ("\n" ++ comment ("| >>> " ++ cb) ++ "\n")
   | "prop" `elem` xs =
-    CodeBlock (i,xs,ks) ("-- | prop> " ++ cb)
+    CodeBlock (i,xs,ks) ("\n-- | prop> " ++ cb ++ "\n")
   | otherwise =
-    CodeBlock (i,xs,ks) cb
+    CodeBlock (i,xs,ks) ("\n" ++ cb ++ "\n")
 doctestify b = b
 
 comment :: String -> String
